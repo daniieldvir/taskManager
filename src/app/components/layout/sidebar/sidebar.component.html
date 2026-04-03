@@ -1,0 +1,41 @@
+<div class="sidebar">
+  <div class="user-profile">
+    <div class="login-user">
+      <app-avatar class="avatar" [data]="currentUser()!.name" />
+      <span class="user-name">{{ currentUser()?.name }}</span>
+    </div>
+
+    <button type="button" class="logout-btn" (click)="handleLogOut()" title="Logout">
+      <svg lucideLogOut [size]="18" />
+    </button>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="stats-section">
+    <p class="section-title">My Tasks Overview</p>
+    <div class="stats-grid">
+      <app-stats-card [data]="openCount()" [label]="StatusEnum.ToDo" />
+      <app-stats-card [data]="inProgressCount()" [label]="StatusEnum.InProgress" />
+      <app-stats-card [data]="doneCount()" [label]="StatusEnum.Done" />
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="info-section">
+    <p class="section-title">My Info</p>
+    <div class="info-row">
+      <span class="info-icon">✉️</span>
+      <span class="info-text">{{ currentUser()?.email }}</span>
+    </div>
+    <div class="info-row">
+      <span class="info-icon">👥</span>
+      <span class="info-text">{{ currentUser()?.team }}</span>
+    </div>
+    <div class="info-row">
+      <span class="info-icon">🎯</span>
+      <span class="info-text">{{ currentUser()?.roleType }}</span>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,19 @@
+@if (!currentUser()) {
+  <app-login-page />
+}
+@if (currentUser()) {
+  <div class="home-page-content">
+    <app-sidebar
+      [currentUser]="$any(currentUser())"
+      [tasks]="tasks()"
+      (logOutClicked)="handleLogout()"
+    />
+    <div class="main-content">
+      <app-filter
+        [assigneeOptions]="assigneeOptions()"
+        (filterChanged)="handelFilterTasks($event)"
+      />
+      <app-task-list [tasks]="filteredTasks()" />
+    </div>
+  </div>
+}

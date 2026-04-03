@@ -1,0 +1,16 @@
+[
+  {
+    "userId": "u101",
+    "name": "Alice",
+    "roleType": "user",
+    "team": "Frontend",
+    "email": "alice@company.com"
+  },
+  {
+    "userId": "u106",
+    "name": "Mike",
+    "roleType": "manager",
+    "team": "Frontend",
+    "email": "mike@company.com"
+  }
+]

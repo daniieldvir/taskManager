@@ -1,0 +1,8 @@
+<div class="login-page">
+  <h1>Who are you?</h1>
+  <div class="roles-list">
+    @for (role of roles() ?? []; track role.userId) {
+      <app-employee-card [role]="role" (selected)="selectRole($event)" />
+    }
+  </div>
+</div>

@@ -1,0 +1,43 @@
+.priority-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: capitalize;
+
+    .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+    }
+
+    &.high {
+      background-color: var(--task-prio-high-bg);
+      color: var(--task-prio-high-fg);
+
+      .dot {
+        background-color: var(--task-prio-high-dot);
+      }
+    }
+
+    &.medium {
+      background-color: var(--task-prio-medium-bg);
+      color: var(--task-prio-medium-fg);
+
+      .dot {
+        background-color: var(--task-prio-medium-dot);
+      }
+    }
+
+    &.low {
+      background-color: var(--task-prio-low-bg);
+      color: var(--task-prio-low-fg);
+
+      .dot {
+        background-color: var(--task-prio-low-dot);
+      }
+    }
+  }
