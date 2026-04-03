@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { computed, inject, Injectable, signal } from '@angular/core';
 import { Task } from '../models/task.model';
+import { Status } from '../types/status.type';
 import { AuthService } from './auth.service';
 
 @Injectable({
@@ -31,6 +32,16 @@ export class TaskService {
 
     this.http.get<Task[]>('assets/data/tasks.json').subscribe((tasks) => {
       this.tasks.set(tasks);
+    });
+  }
+
+  updateTaskStatus(taskId: number, newStatus: Status): void {
+    this.tasks.update((currentTasks) => {
+      if (!currentTasks) return undefined;
+
+      return currentTasks.map((task) =>
+        task.id === taskId ? { ...task, status: newStatus } : task
+      );
     });
   }
 }

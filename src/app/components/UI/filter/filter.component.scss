@@ -13,7 +13,6 @@
   &:hover,
   &:focus-within {
     border-color: var(--primary-color);
-    box-shadow: var(--task-card-hover-shadow);
   }
 
   .filter-label {

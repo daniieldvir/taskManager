@@ -1,0 +1,8 @@
+$base-font-size: 16px;
+
+@function rem($pixels) {
+  $value: if(unitless($pixels), $pixels, $pixels / 1px);
+  $base: if(unitless($base-font-size), $base-font-size, $base-font-size / 1px);
+
+  @return ($value / $base) * 1rem;
+}

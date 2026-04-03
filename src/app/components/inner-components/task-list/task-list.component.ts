@@ -10,11 +10,12 @@ import { DatePipe, DecimalPipe, NgClass } from '@angular/common';
 import { Component, effect, input, output } from '@angular/core';
 import { LucideCalendarCheck2, LucideMessageSquare } from '@lucide/angular';
 import { Task } from '../../../models/task.model';
+import { Status, StatusEnum } from '../../../types/status.type';
 import { AvatarComponent } from '../../UI/avatar/avatar.component';
 import { PriorityBadgeComponent } from '../../UI/priority-badge/priority-badge.component';
 
 export interface BoardColumn {
-  id: string;
+  id: Status;
   title: string;
   tasks: Task[];
 }
@@ -40,28 +41,29 @@ export interface BoardColumn {
 export class TaskListComponent {
   public tasks = input<Task[] | undefined>(undefined);
   public taskClicked = output<Task>();
+  public taskStatusChanged = output<{ taskId: number; newStatus: Status }>();
 
   onTaskClick(task: Task) {
     this.taskClicked.emit(task);
   }
 
   public columns: BoardColumn[] = [
-    { id: 'Open', title: 'Open', tasks: [] },
-    { id: 'In Progress', title: 'In Progress', tasks: [] },
-    { id: 'Closed', title: 'Closed', tasks: [] },
+    { id: StatusEnum.ToDo, title: 'Open', tasks: [] },
+    { id: StatusEnum.InProgress, title: 'In Progress', tasks: [] },
+    { id: StatusEnum.Done, title: 'Closed', tasks: [] },
   ];
 
   constructor() {
     effect(() => {
       const allTasks = this.tasks();
       if (allTasks) {
-        const newCols = [
-          { id: 'Open', title: 'Open', tasks: [] as Task[] },
-          { id: 'In Progress', title: 'In Progress', tasks: [] as Task[] },
-          { id: 'Closed', title: 'Closed', tasks: [] as Task[] },
+        const newCols: BoardColumn[] = [
+          { id: StatusEnum.ToDo, title: 'Open', tasks: [] },
+          { id: StatusEnum.InProgress, title: 'In Progress', tasks: [] },
+          { id: StatusEnum.Done, title: 'Closed', tasks: [] },
         ];
         allTasks.forEach((task) => {
-          const status = task.status || 'Open';
+          const status = task.status ?? StatusEnum.ToDo;
           let targetCol = newCols.find((c) => c.id === status);
           if (!targetCol) targetCol = newCols[0];
           targetCol.tasks.push(task);
@@ -75,15 +77,15 @@ export class TaskListComponent {
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
     } else {
+      const task = event.previousContainer.data[event.previousIndex];
+      const newStatus = event.container.id as Status;
       transferArrayItem(
         event.previousContainer.data,
         event.container.data,
         event.previousIndex,
         event.currentIndex,
       );
-      // Update task status visually locally
-      const updatedTask = event.container.data[event.currentIndex];
-      // updatedTask.status = event.container.id;
+      this.taskStatusChanged.emit({ taskId: task.id, newStatus: newStatus });
     }
   }
 }

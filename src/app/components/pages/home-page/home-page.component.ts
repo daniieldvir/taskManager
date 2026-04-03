@@ -2,9 +2,10 @@ import { Component, computed, inject, signal } from '@angular/core';
 import { AuthService } from '../../../services/auth.service';
 import { TaskService } from '../../../services/task.service';
 import { TaskListComponent } from '../../inner-components/task-list/task-list.component';
+import { SidebarComponent } from '../../layout/sidebar/sidebar.component';
 import { FilterComponent } from '../../UI/filter/filter.component';
 import { LoginPageComponent } from '../login-page/login-page.component';
-import { SidebarComponent } from "../../layout/sidebar/sidebar.component";
+import { Status } from '../../../types/status.type';
 
 @Component({
   selector: 'app-home-page',
@@ -42,5 +43,9 @@ export class HomePageComponent {
 
   public handleLogout() {
     this.authService.currentUser.set(null);
+  }
+
+  handelTaskStatusChanged(payload: { taskId: number; newStatus: Status }): void {
+    this.tasksService.updateTaskStatus(payload.taskId, payload.newStatus);
   }
 }

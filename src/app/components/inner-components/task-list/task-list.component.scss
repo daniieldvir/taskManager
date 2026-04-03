@@ -1,3 +1,5 @@
+@use '../../../../styles/functions' as *;
+
 .board-container {
   display: flex;
   height: 100%;
@@ -48,7 +50,7 @@
 
         h3 {
           margin: 0;
-          font-size: 16px;
+          font-size: rem(16px);
           font-weight: 600;
           color: var(--task-header-text);
           letter-spacing: -0.01em;
@@ -60,7 +62,7 @@
           color: var(--task-count-text);
           border-radius: 20px;
           padding: 4px 10px;
-          font-size: 13px;
+          font-size: rem(13px);
           font-weight: 600;
           transition:
             background-color 0.3s ease,
@@ -113,7 +115,7 @@
 
             .title {
               margin: 0;
-              font-size: 16px;
+              font-size: rem(16px);
               font-weight: 600;
               color: var(--task-text-primary);
               line-height: 1.5;
@@ -121,7 +123,7 @@
 
             .desc {
               margin: 6px 0 0;
-              font-size: 13px;
+              font-size: rem(13px);
               color: var(--task-text-secondary);
               line-height: 1.5;
               display: -webkit-box;
@@ -147,7 +149,7 @@
                 display: flex;
                 align-items: center;
                 gap: 6px;
-                font-size: 12px;
+                font-size: rem(12px);
                 font-weight: 500;
                 color: var(--task-text-secondary);
               }
@@ -156,8 +158,6 @@
             .avatar-container {
               display: flex;
               align-items: center;
-
-
             }
           }
         }
@@ -165,7 +165,6 @@
     }
   }
 }
-
 
 ::ng-deep {
   .cdk-drag-preview {
@@ -191,7 +190,7 @@
 
       .title {
         margin: 0;
-        font-size: 16px;
+        font-size: rem(16px);
         font-weight: 600;
         color: var(--task-text-primary);
         line-height: 1.5;
@@ -199,7 +198,7 @@
 
       .desc {
         margin: 6px 0 0;
-        font-size: 13px;
+        font-size: rem(13px);
         color: var(--task-text-secondary);
         line-height: 1.5;
         display: -webkit-box;
@@ -226,7 +225,7 @@
           display: flex;
           align-items: center;
           gap: 6px;
-          font-size: 12px;
+          font-size: rem(12px);
           font-weight: 500;
           color: var(--task-text-secondary);
         }
@@ -241,7 +240,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 13px;
+        font-size: rem(13px);
         font-weight: 600;
         box-shadow:
           0 0 0 2px var(--task-card-bg),

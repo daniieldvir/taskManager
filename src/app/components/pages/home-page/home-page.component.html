@@ -13,7 +13,7 @@
         [assigneeOptions]="assigneeOptions()"
         (filterChanged)="handelFilterTasks($event)"
       />
-      <app-task-list [tasks]="filteredTasks()" />
+      <app-task-list [tasks]="filteredTasks()" (taskStatusChanged)="handelTaskStatusChanged($event)"/>
     </div>
   </div>
 }
