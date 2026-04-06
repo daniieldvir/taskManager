@@ -24,6 +24,9 @@ export class DetailRowComponent {
   public avatar = input<string>();
   public tagChip = input<TagChipData | TagChipData[]>();
 
+  public isEditable = input<boolean>(false);
+  public isEditing = input<boolean>(false);
+
   protected tags = computed(() => {
     const val = this.tagChip();
     if (!val) return [];

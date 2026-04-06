@@ -1,0 +1,13 @@
+<div class="wrapper">
+  @if (label()) {
+    <label>{{ label() }}:</label>
+  }
+  <input
+    class="custom-input"
+    [type]="type()"
+    [ngModel]="value()"
+    [placeholder]="placeholder()"
+    (ngModelChange)="valueChange.emit($event)"
+    autocomplete="off"
+  />
+</div>

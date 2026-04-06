@@ -12,16 +12,16 @@ export class TaskService {
   private readonly authService = inject(AuthService);
 
   public tasks = signal<Task[] | undefined>(undefined);
-  public assigneeOptions = computed(() => {
+  public readonly pureAssigneeOptions = computed(() => {
     const tasks = this.tasks();
-    if (!tasks) return [{ label: 'All', value: 'ALL' }];
+    if (!tasks || tasks.length === 0) return [];
 
-    const allAssignees = tasks.map((task) => task.assignee);
-    const uniqueNames = [...new Set(allAssignees)].filter((name) => !!name).sort();
-    return [
-      { label: 'All', value: 'ALL' },
-      ...uniqueNames.map((name) => ({ label: name, value: name })),
-    ];
+    const uniqueNames = [...new Set(tasks.map((t) => t.assignee))].filter((name) => !!name).sort();
+
+    return uniqueNames.map((name) => ({
+      label: name,
+      value: name,
+    }));
   });
 
   loadForCurrentUser(): void {
@@ -40,7 +40,7 @@ export class TaskService {
       if (!currentTasks) return undefined;
 
       return currentTasks.map((task) =>
-        task.id === taskId ? { ...task, status: newStatus } : task
+        task.id === taskId ? { ...task, status: newStatus } : task,
       );
     });
   }
@@ -67,4 +67,3 @@ export class TaskService {
     });
   }
 }
-

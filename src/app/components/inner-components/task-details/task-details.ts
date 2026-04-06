@@ -1,10 +1,15 @@
-import { Component, computed, model, input, output } from '@angular/core';
-import { CommonModule, DatePipe } from '@angular/common';
-import { Task } from '../../../models/task.model';
-import { PriorityBadgeComponent } from '../../UI/priority-badge/priority-badge.component';
+import { CommonModule } from '@angular/common';
+import { Component, computed, input, model, output, signal } from '@angular/core';
 import { LucideDynamicIcon } from '@lucide/angular';
-import { DetailRowComponent } from '../../UI/detail-row/detail-row.component';
+import { issueTypeOptions, priorityOptions } from '../../../constants/add-task.const';
+import { Task } from '../../../models/task.model';
+import { ButtonComponent } from '../../UI/button/button.component';
 import { CommendBoxComponent } from '../../UI/commend-box/commend-box.component';
+import { InputComponent } from '../../UI/input/input.component';
+import { PriorityBadgeComponent } from '../../UI/priority-badge/priority-badge.component';
+import { SelectComponent, SelectOption } from '../../UI/select/select.component';
+import { TextareaComponent } from '../../UI/textarea/textarea.component';
+import { IssueDetailsComponent } from '../issue-details/issue-details.component';
 
 @Component({
   selector: 'app-task-details',
@@ -12,30 +17,96 @@ import { CommendBoxComponent } from '../../UI/commend-box/commend-box.component'
   imports: [
     CommonModule,
     PriorityBadgeComponent,
-    DatePipe,
     LucideDynamicIcon,
-    DetailRowComponent,
     CommendBoxComponent,
+    InputComponent,
+    SelectComponent,
+    TextareaComponent,
+    IssueDetailsComponent,
+    ButtonComponent,
   ],
   templateUrl: './task-details.html',
   styleUrl: './task-details.scss',
 })
 export class TaskDetailsComponent {
   public isTaskModelOpen = model<boolean>(false);
+  public mode = input<'view' | 'create'>('create');
   public task = input<Task | null>(null);
+  public initialTask = input<Partial<Task> | null>(null);
+  public assigneeOptions = input<SelectOption[]>([]);
   public composerAvatarLabel = input<string>('');
-
   public commentSubmit = output<string>();
+  public saveTask = output<Partial<Task>>();
 
+  public issueTypeOptions = signal<SelectOption[]>(issueTypeOptions);
+  public priorityOptions = signal<SelectOption[]>(priorityOptions);
+  protected isEditing = signal(false);
+  protected isFormMode = computed(() => this.mode() === 'create' || this.isEditing());
+
+  protected draft = computed(() => {
+    const base = this.task() ?? this.initialTask() ?? {};
+    return {
+      issueType: '',
+      priority: '',
+      title: '',
+      description: '',
+      assignee: '',
+      reporter: '',
+      project: '',
+      team: '',
+      status: 'To Do',
+      dueDate: '',
+      createdAt: '',
+      tags: [],
+      ...base,
+    } as Partial<Task>;
+  });
+
+  protected draftOverride = signal<Partial<Task> | null>(null);
+
+  protected activeDraft = computed(() => this.draftOverride() ?? this.draft());
+  protected draftTagsText = computed(() => (this.activeDraft().tags ?? []).join(', '));
   protected tagRowChips = computed(() => {
     const t = this.task();
-    if (!t?.tags?.length) {
-      return undefined;
-    }
+    if (!t?.tags?.length) return undefined;
     return t.tags.map((data) => ({ data, variant: 'tag-chip' as const }));
   });
 
+  startEditing() {
+    this.draftOverride.set({ ...this.draft() });
+    this.isEditing.set(true);
+  }
+
+  updateField<K extends keyof Task>(field: K, value: any) {
+    if (!this.draftOverride()) {
+      this.draftOverride.set({ ...this.draft() });
+    }
+    this.draftOverride.update((current) => ({ ...current, [field]: value }));
+  }
+
+  updateDraftTags(value: string) {
+    const tags = value
+      .split(',')
+      .map((tag) => tag.trim())
+      .filter((tag) => tag.length > 0);
+    this.updateField('tags', tags);
+  }
+
+  save() {
+    this.saveTask.emit(this.activeDraft());
+    this.isEditing.set(false);
+    this.draftOverride.set(null);
+  }
+
+  cancelEditing() {
+    this.isEditing.set(false);
+    this.draftOverride.set(null);
+    if (this.mode() === 'create') this.close();
+  }
+
   close() {
     this.isTaskModelOpen.set(false);
+    this.isEditing.set(false);
+    this.draftOverride.set(null);
   }
 }

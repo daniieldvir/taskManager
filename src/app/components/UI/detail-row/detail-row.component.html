@@ -1,22 +1,24 @@
-<div class="detail-row">
+<div class="detail-row" [class.is-editing]="isEditing()">
   <span class="detail-label">
     <svg [lucideIcon]="svgIcon().name" [size]="svgIcon().size ?? 14" />
     {{ label() }}
   </span>
-  <div class="detail-value">
-    @if (avatar()) {
-      <app-avatar [data]="avatar()!" />
-    }
 
-    @if (tags().length > 0) {
-      @for (chip of tags(); track $index) {
-        <app-tag-chip
-          [data]="chip.data"
-          [variant]="chip.variant"
-          [displayStatus]="chip.displayStatus"
-        />
+  <div class="detail-value">
+    @if (isEditing()) {
+      <ng-content select="[editControl]" />
+    } @else {
+      @if (avatar()) {
+        <app-avatar [data]="avatar()!" />
       }
+
+      @if (tags().length > 0) {
+        @for (chip of tags(); track $index) {
+          <app-tag-chip [data]="chip.data" [variant]="chip.variant" />
+        }
+      }
+
+      <span>{{ value() }}</span>
     }
-    <span>{{ value() }}</span>
   </div>
 </div>

@@ -1,0 +1,12 @@
+<div class="wrapper">
+  @if (label()) {
+    <label>{{ label() }}:</label>
+  }
+  <textarea
+    class="custom-textarea"
+    [ngModel]="value()"
+    [placeholder]="placeholder()"
+    (ngModelChange)="valueChange.emit($event)"
+    autocomplete="off"
+  ></textarea>
+</div>

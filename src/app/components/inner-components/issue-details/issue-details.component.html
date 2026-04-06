@@ -1,0 +1,115 @@
+<div class="details-grid">
+  <app-detail-row
+    [svgIcon]="{ name: 'user', size: '14' }"
+    [label]="'Assignee'"
+    [avatar]="task()?.assignee ?? ''"
+    [value]="task()?.assignee"
+    [isEditing]="isFormMode()"
+  >
+    <app-select
+      editControl
+      [value]="draft().assignee ?? ''"
+      (valueChange)="assigneeChange.emit($event)"
+      [options]="assigneeOptions()"
+      placeholder="Assignee"
+    />
+  </app-detail-row>
+
+  <app-detail-row
+    [svgIcon]="{ name: 'user-check', size: '14' }"
+    [label]="'Reporter'"
+    [value]="task()?.reporter"
+    [isEditing]="isFormMode()"
+  >
+    <app-input
+      editControl
+      [value]="draft().reporter ?? ''"
+      (valueChange)="reporterChange.emit($event)"
+      placeholder="Reporter"
+    />
+  </app-detail-row>
+
+  <app-detail-row
+    [svgIcon]="{ name: 'folder', size: '14' }"
+    [label]="'Project'"
+    [tagChip]="{ data: task()?.project ?? '', variant: 'tag-chip' }"
+    [isEditing]="isFormMode()"
+  >
+    <app-select
+      editControl
+      [value]="draft().project ?? ''"
+      (valueChange)="projectChange.emit($event)"
+      [options]="projectOptions()"
+      placeholder="Project"
+    />
+  </app-detail-row>
+
+  <app-detail-row
+    [svgIcon]="{ name: 'users', size: '14' }"
+    [label]="'Team'"
+    [value]="task()?.team"
+    [isEditing]="isFormMode()"
+  >
+    <app-input
+      editControl
+      [value]="draft().team ?? ''"
+      (valueChange)="teamChange.emit($event)"
+      placeholder="Team"
+    />
+  </app-detail-row>
+
+  <app-detail-row
+    [svgIcon]="{ name: 'activity', size: '14' }"
+    [label]="'Status'"
+    [tagChip]="{ data: task()?.status ?? '', variant: 'status-chip' }"
+    [isEditing]="isFormMode()"
+  >
+    <app-select
+      editControl
+      [value]="draft().status ?? ''"
+      (valueChange)="statusChange.emit($event)"
+      [options]="statusOptions()"
+      placeholder="Status"
+    />
+  </app-detail-row>
+
+  <app-detail-row
+    [svgIcon]="{ name: 'calendar-check-2', size: '14' }"
+    [label]="'Due date'"
+    [value]="(task()?.dueDate | date: 'MMM d, yyyy') ?? undefined"
+    [isEditing]="isFormMode()"
+  >
+    <app-input
+      editControl
+      [value]="draft().dueDate ?? ''"
+      (valueChange)="dueDateChange.emit($event)"
+      placeholder="Due date"
+      type="date"
+    />
+  </app-detail-row>
+
+  <app-detail-row
+    [svgIcon]="{ name: 'clock', size: '14' }"
+    [label]="'Created'"
+    [value]="(task()?.createdAt | date: 'MMM d, yyyy') ?? undefined"
+    [isEditing]="isFormMode()"
+  >
+    <p class="create-date" editControl>{{ currentDate | date }}</p>
+  </app-detail-row>
+
+  @if (isFormMode() || tagRowChips()) {
+    <app-detail-row
+      [svgIcon]="{ name: 'tag', size: '14' }"
+      [label]="'Tags'"
+      [tagChip]="tagRowChips()"
+      [isEditing]="isFormMode()"
+    >
+      <app-input
+        editControl
+        [value]="draftTagsText()"
+        (valueChange)="tagsChange.emit($event)"
+        placeholder="tag1, tag2, tag3"
+      />
+    </app-detail-row>
+  }
+</div>

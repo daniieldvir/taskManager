@@ -10,7 +10,7 @@ import { Component, input, output } from '@angular/core';
 export class ButtonComponent {
   public label = input<string>();
   public disabled = input<boolean>();
-  public variant = input<'primary'>();
+  public variant = input<'primary' | 'secondary'>();
   public buttonClicked = output<void>();
 
   public handelButtonClicked() {

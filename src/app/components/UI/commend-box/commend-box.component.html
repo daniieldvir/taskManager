@@ -24,7 +24,12 @@
           placeholder="Add a comment..."
           (keydown.enter)="submitComment(); $event.preventDefault()"
         ></textarea>
-        <app-button [label]="'Save'" [variant]="'primary'" [disabled]="!newComment().trim()" />
+        <app-button
+          [label]="'Save'"
+          [variant]="'primary'"
+          [disabled]="!newComment().trim()"
+          (buttonClicked)="submitComment()"
+        />
       </div>
     </div>
   </div>

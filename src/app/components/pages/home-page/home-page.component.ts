@@ -22,7 +22,12 @@ export class HomePageComponent {
 
   public currentUser = computed(() => this.authService.currentUser());
   public tasks = computed(() => this.tasksService.tasks());
-  public assigneeOptions = computed(() => this.tasksService.assigneeOptions());
+  public readonly assigneesForAdd = this.tasksService.pureAssigneeOptions;
+
+  public readonly assigneesForFilter = computed(() => [
+    { label: 'All', value: 'ALL' },
+    ...this.tasksService.pureAssigneeOptions()
+  ]);
 
   public filteredTasks = computed(() => {
     const all = this.tasks();

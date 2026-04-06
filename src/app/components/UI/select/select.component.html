@@ -1,0 +1,11 @@
+<div class="select-wrapper">
+  <select class="custom-select" [ngModel]="value()" (ngModelChange)="valueChange.emit($event)">
+    @for (option of options(); track option.value) {
+      <option [value]="option.value">{{ option.label }}</option>
+    }
+  </select>
+
+  <span class="select-icon" aria-hidden="true">
+    <svg lucideIcon="chevron-down" [size]="16" [strokeWidth]="2" />
+  </span>
+</div>

@@ -1,0 +1,57 @@
+.select-wrapper {
+  position: relative;
+  width: 100%;
+  min-width: 0;
+  display: block;
+}
+
+.custom-select {
+  width: 100%;
+  min-height: 36px;
+  min-width: 200px;
+  padding: 8px calc(12px + 22px) 8px 12px;
+  border: 1px solid #d0d5dd;
+  border-radius: 10px;
+  background-color: #ffffff;
+  color: #101828;
+  font-size: 14px;
+  line-height: 20px;
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease,
+    background-color 0.15s ease;
+
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  cursor: pointer;
+
+  &:hover {
+    border-color: #b8c0cc;
+  }
+
+  &:focus {
+    outline: none;
+    border-color: #7f56d9;
+    box-shadow: 0 0 0 3px rgba(127, 86, 217, 0.16);
+  }
+
+  &:disabled {
+    background-color: #f2f4f7;
+    color: #667085;
+    cursor: not-allowed;
+  }
+}
+
+.select-icon {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  color: #667085;
+  line-height: 0;
+}

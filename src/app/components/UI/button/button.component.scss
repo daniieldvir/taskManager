@@ -25,4 +25,26 @@
       cursor: not-allowed;
     }
   }
+
+  &.secondary {
+    transition:
+      filter 0.2s ease,
+      opacity 0.2s ease,
+      background-color 0.2s ease,
+      border-color 0.2s ease;
+
+    background: transparent;
+    color: var(--text-primary);
+    border: 1px solid var(--card-border);
+
+    &:hover:not(:disabled) {
+      background: var(--header-toggle-bg);
+      border-color: var(--primary-color);
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  }
 }
