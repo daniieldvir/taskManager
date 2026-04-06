@@ -1,0 +1,22 @@
+<div class="detail-row">
+  <span class="detail-label">
+    <svg [lucideIcon]="svgIcon().name" [size]="svgIcon().size ?? 14" />
+    {{ label() }}
+  </span>
+  <div class="detail-value">
+    @if (avatar()) {
+      <app-avatar [data]="avatar()!" />
+    }
+
+    @if (tags().length > 0) {
+      @for (chip of tags(); track $index) {
+        <app-tag-chip
+          [data]="chip.data"
+          [variant]="chip.variant"
+          [displayStatus]="chip.displayStatus"
+        />
+      }
+    }
+    <span>{{ value() }}</span>
+  </div>
+</div>

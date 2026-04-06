@@ -1,13 +1,20 @@
 <div class="filter-wrapper">
   <label class="filter-label"> Filter By User: </label>
   <div class="select-container">
-    <select id="assignee-select" class="filter-select" (change)="onSelectionChange($event)">
+    <select
+      id="assignee-select"
+      class="filter-select"
+      [value]="selectedValue()"
+      (change)="onSelectionChange($event)"
+    >
       @for (option of assigneeOptions(); track option.value) {
         <option [value]="option.value">{{ option.label }}</option>
       }
     </select>
     <div class="select-icon">
-      <svg lucideChevronDown [size]="16" />
+      <svg lucideIcon="chevron-down" [size]="16" />
     </div>
   </div>
+
+  <p class="filter-label by-me" (click)="filterByLoginUser()">Filter By Me</p>
 </div>

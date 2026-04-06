@@ -22,12 +22,12 @@
             <div class="task-meta">
               @if (task.dueDate) {
               <div class="chip" [title]="'Due: ' + task.dueDate">
-                <svg lucideCalendarCheck2 [size]="16" />
+                <svg lucideIcon="calendar-check-2" [size]="16" />
                 {{ task.dueDate | date: 'MMM d' }}
               </div>
               }
               <div class="chip">
-                <svg lucideMessageSquare [size]="16" />
+                <svg lucideIcon="message-square" [size]="16" />
                 {{ task.comments ? task.comments.length : 0 }}
               </div>
             </div>

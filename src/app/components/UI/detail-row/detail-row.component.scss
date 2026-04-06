@@ -1,0 +1,62 @@
+@use '../../../../styles/functions' as *;
+
+.detail-row {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  .detail-label {
+    font-size: rem(13px);
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    svg {
+      color: var(--primary-color);
+    }
+  }
+  .detail-value {
+    font-size: rem(15px);
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    &.assignee-value {
+      font-weight: 500;
+    }
+
+    .tag-chip {
+      padding: 4px 12px;
+      background: var(--senary-color);
+      border: 1px solid var(--card-border);
+      border-radius: 100px;
+      font-size: rem(13px);
+      color: var(--text-secondary);
+    }
+
+    .status-chip {
+      padding: 4px 12px;
+      border-radius: 6px;
+      font-size: rem(13px);
+      font-weight: 600;
+      background: var(--task-prio-open-bg);
+      color: var(--task-prio-open-fg);
+      text-transform: capitalize;
+
+      &[data-status='In Progress'] {
+        background: var(--task-prio-medium-bg);
+        color: var(--task-prio-medium-fg);
+      }
+
+      &[data-status='Done'] {
+        background: var(--task-prio-low-bg);
+        color: var(--task-prio-low-fg);
+      }
+    }
+  }
+}

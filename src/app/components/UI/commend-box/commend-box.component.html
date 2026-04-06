@@ -1,0 +1,48 @@
+<div class="comments-section">
+  <div class="header">
+    <h4 class="title">
+      <svg lucideIcon="message-square" [size]="15" />
+      Comments
+      <span class="comment-count">{{ comments().length }}</span>
+    </h4>
+    <button class="add-button" (click)="handelAddNewComment()">
+      <svg [lucideIcon]="commentIcon()" [size]="18" />
+    </button>
+  </div>
+
+  <div
+    class="composer-panel"
+    [class.composer-panel--open]="addNewComment()"
+    [attr.inert]="addNewComment() ? null : ''"
+  >
+    <div class="add-comment-box">
+      <app-avatar [data]="composerAvatarLabel()" />
+      <div class="input-wrapper">
+        <textarea
+          [ngModel]="newComment()"
+          (ngModelChange)="handleCommentChange($event)"
+          placeholder="Add a comment..."
+          (keydown.enter)="submitComment(); $event.preventDefault()"
+        ></textarea>
+        <app-button [label]="'Save'" [variant]="'primary'" [disabled]="!newComment().trim()" />
+      </div>
+    </div>
+  </div>
+
+  <div class="comments-list-scroll">
+    @for (comment of comments(); track comment.createdAt) {
+      <div class="item">
+        <div class="avatar">
+          <app-avatar [data]="comment.author" />
+        </div>
+        <div class="content">
+          <div class="meta">
+            <span class="author">{{ comment.author }}</span>
+            <span class="date">{{ comment.createdAt | date: 'MMM d, yyyy' }}</span>
+          </div>
+          <p class="text">{{ comment.comment }}</p>
+        </div>
+      </div>
+    }
+  </div>
+</div>

@@ -1,3 +1,5 @@
+@use '../../../../styles/functions' as *;
+
 .filter-wrapper {
   display: flex;
   align-items: center;
@@ -13,6 +15,8 @@
   &:hover,
   &:focus-within {
     border-color: var(--primary-color);
+    font-size: rem(12px);
+    font-weight: 400;
   }
 
   .filter-label {
@@ -23,6 +27,12 @@
     font-size: 0.875rem;
     font-weight: 600;
     white-space: nowrap;
+
+    &.by-me {
+      color: var(--task-prio-open-fg);
+      cursor: pointer;
+      font-size: rem(12px);
+    }
   }
 
   .select-container {

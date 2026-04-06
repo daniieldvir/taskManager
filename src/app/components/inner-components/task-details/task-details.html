@@ -1,0 +1,59 @@
+<div class="modal-backdrop" (click)="close()"></div>
+
+<div class="modal-panel" role="dialog" aria-modal="true">
+    <div class="header">
+        <div class="left">
+            <div class="issue-type-badge">
+                <svg lucideIcon="layers" [size]="14" />
+                <span>{{ task()?.issueType }}</span>
+            </div>
+            <span class="task-id">#{{ task()?.id }}</span>
+        </div>
+        <div class="right">
+            <app-priority-badge [priority]="task()?.priority ?? ''" />
+            <button class="close-btn" (click)="close()" title="Close">
+                <svg lucideIcon="x" [size]="18" />
+            </button>
+        </div>
+    </div>
+
+    <div class="modal-body">
+        <div class="task-title-section">
+            <h2 class="task-title">{{ task()?.title }}</h2>
+            <p class="task-description">{{ task()?.description }}</p>
+        </div>
+
+        <div class="details-grid">
+            <app-detail-row [svgIcon]="{ name: 'user', size: '14' }" [label]="'Assignee'"
+                [avatar]="task()?.assignee ?? ''" [value]="task()?.assignee" />
+
+            <app-detail-row [svgIcon]="{ name: 'user-check', size: '14' }" [label]="'Reporter'"
+                [value]="task()?.reporter" />
+
+            <app-detail-row [svgIcon]="{ name: 'folder', size: '14' }" [label]="'Project'"
+                [tagChip]="{ data: task()!.project, variant: 'tag-chip' }" />
+
+            <app-detail-row [svgIcon]="{ name: 'user', size: '14' }" [label]="'Reporter'" [value]="task()?.team" />
+
+            <app-detail-row [svgIcon]="{ name: 'activity', size: '14' }" [label]="'Project'"
+                [tagChip]="{ data: task()!.status, variant: 'status-chip' }" />
+
+            <app-detail-row [svgIcon]="{ name: 'calendar-check-2', size: '14' }" [label]="'Reporter'"
+                [value]="(task()?.dueDate | date: 'MMM d, yyyy') ?? undefined" />
+
+            <app-detail-row [svgIcon]="{ name: 'clock', size: '14' }" [label]="'Created'"
+                [value]="(task()?.createdAt | date: 'MMM d, yyyy') ?? undefined" />
+
+            @if (tagRowChips()) {
+            <app-detail-row [svgIcon]="{ name: 'tag', size: '14' }" [label]="'Tags'" [tagChip]="tagRowChips()!" />
+            }
+        </div>
+
+        @if (task()) {
+        <app-commend-box
+            [comments]="task()!.comments ?? []"
+            [composerAvatarLabel]="composerAvatarLabel()"
+            (commentSubmit)="commentSubmit.emit($event)" />
+        }
+    </div>
+</div>

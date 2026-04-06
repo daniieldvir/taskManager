@@ -8,10 +8,10 @@ import {
 } from '@angular/cdk/drag-drop';
 import { DatePipe, DecimalPipe, NgClass } from '@angular/common';
 import { Component, effect, input, output } from '@angular/core';
-import { LucideCalendarCheck2, LucideMessageSquare } from '@lucide/angular';
 import { Task } from '../../../models/task.model';
 import { Status, StatusEnum } from '../../../types/status.type';
 import { AvatarComponent } from '../../UI/avatar/avatar.component';
+import { LucideDynamicIcon } from '@lucide/angular';
 import { PriorityBadgeComponent } from '../../UI/priority-badge/priority-badge.component';
 
 export interface BoardColumn {
@@ -24,8 +24,7 @@ export interface BoardColumn {
   selector: 'app-task-list',
   standalone: true,
   imports: [
-    LucideCalendarCheck2,
-    LucideMessageSquare,
+    LucideDynamicIcon,
     CdkDropListGroup,
     CdkDropList,
     CdkDrag,
@@ -42,10 +41,6 @@ export class TaskListComponent {
   public tasks = input<Task[] | undefined>(undefined);
   public taskClicked = output<Task>();
   public taskStatusChanged = output<{ taskId: number; newStatus: Status }>();
-
-  onTaskClick(task: Task) {
-    this.taskClicked.emit(task);
-  }
 
   public columns: BoardColumn[] = [
     { id: StatusEnum.ToDo, title: 'Open', tasks: [] },
@@ -87,5 +82,9 @@ export class TaskListComponent {
       );
       this.taskStatusChanged.emit({ taskId: task.id, newStatus: newStatus });
     }
+  }
+
+  onTaskClick(task: Task) {
+    this.taskClicked.emit(task);
   }
 }

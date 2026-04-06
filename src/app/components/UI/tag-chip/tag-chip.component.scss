@@ -1,0 +1,21 @@
+@use '../../../../styles/functions' as *;
+
+.tag-chip {
+  padding: 4px 12px;
+  background: var(--senary-color);
+  border: 1px solid var(--card-border);
+  border-radius: 100px;
+  font-size: rem(13px);
+  color: var(--text-secondary);
+}
+
+.status-chip {
+  padding: 4px 12px;
+  border-radius: 6px;
+  font-size: rem(13px);
+  font-weight: 600;
+  background: var(--task-prio-open-bg);
+  color: var(--task-prio-open-fg);
+  text-transform: capitalize;
+
+}

@@ -1,14 +1,14 @@
 import { Component, computed, input, output } from '@angular/core';
-import { LucideLogOut } from '@lucide/angular';
 import { Task } from '../../../models/task.model';
 import { User } from '../../../models/user.model';
 import { StatusEnum } from '../../../types/status.type';
 import { AvatarComponent } from '../../UI/avatar/avatar.component';
+import { LucideDynamicIcon } from '@lucide/angular';
 import { StatsCardComponent } from '../../UI/stats-card/stats-card.component';
 
 @Component({
   selector: 'app-sidebar',
-  imports: [AvatarComponent, StatsCardComponent, LucideLogOut],
+  imports: [AvatarComponent, StatsCardComponent, LucideDynamicIcon],
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.scss',
 })

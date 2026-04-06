@@ -1,11 +1,11 @@
 import { Component, inject, input } from '@angular/core';
-import { LucideMoon, LucideSun } from '@lucide/angular';
+import { LucideDynamicIcon } from '@lucide/angular';
 import { User } from '../../../models/user.model';
 import { ThemeService } from '../../../services/theme.service';
 
 @Component({
   selector: 'app-header',
-  imports: [LucideSun, LucideMoon],
+  imports: [LucideDynamicIcon],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
 })

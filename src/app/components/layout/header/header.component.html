@@ -3,9 +3,9 @@
   <div class="header-actions">
     <button type="button" class="theme-toggle" (click)="toggleTheme()" title="Toggle Theme">
       @if (theme.theme() === 'dark') {
-        <svg lucideSun [size]="20" />
+        <svg lucideIcon="sun" [size]="20" />
       } @else {
-        <svg lucideMoon [size]="20" />
+        <svg lucideIcon="moon" [size]="20" />
       }
     </button>
   </div>

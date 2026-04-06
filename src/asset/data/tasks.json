@@ -427,7 +427,7 @@
     "priority": "High",
     "status": "To Do",
     "reporter": "Tom",
-    "assignee": "ManagerMike",
+    "assignee": "Mike",
     "userId": "u106",
     "roleType": "manager",
     "team": "Backend",
@@ -438,7 +438,7 @@
     "description": "Track admin actions with timestamps, affected resources, and user info.",
     "comments": [
       {
-        "author": "ManagerMike",
+        "author": "Mike",
         "userId": "u106",
         "comment": "This is critical for our upcoming security audit.",
         "createdAt": "2026-03-23T11:00:00Z"

@@ -44,4 +44,27 @@ export class TaskService {
       );
     });
   }
+
+  addComment(taskId: number, author: string, userId: string, comment: string): void {
+    this.tasks.update((currentTasks) => {
+      if (!currentTasks) return undefined;
+
+      return currentTasks.map((task) => {
+        if (task.id === taskId) {
+          const newComment = {
+            author,
+            userId,
+            comment,
+            createdAt: new Date().toISOString(),
+          };
+          return {
+            ...task,
+            comments: [newComment, ...(task.comments || [])],
+          };
+        }
+        return task;
+      });
+    });
+  }
 }
+

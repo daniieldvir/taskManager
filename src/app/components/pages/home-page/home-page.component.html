@@ -1,19 +1,22 @@
 @if (!currentUser()) {
-  <app-login-page />
+<app-login-page />
 }
 @if (currentUser()) {
-  <div class="home-page-content">
-    <app-sidebar
-      [currentUser]="$any(currentUser())"
-      [tasks]="tasks()"
-      (logOutClicked)="handleLogout()"
-    />
-    <div class="main-content">
-      <app-filter
-        [assigneeOptions]="assigneeOptions()"
-        (filterChanged)="handelFilterTasks($event)"
-      />
-      <app-task-list [tasks]="filteredTasks()" (taskStatusChanged)="handelTaskStatusChanged($event)"/>
-    </div>
+<div class="home-page-content">
+  <app-sidebar [currentUser]="$any(currentUser())" [tasks]="tasks()" (logOutClicked)="handleLogout()" />
+  <div class="main-content">
+    <app-filter [currentUser]="currentUser()" [assigneeOptions]="assigneeOptions()"
+      (filterChanged)="handelFilterTasks($event)" />
+    <app-task-list [tasks]="filteredTasks()" (taskClicked)="handelTaskClicked($event)"
+      (taskStatusChanged)="handelTaskStatusChanged($event)" />
   </div>
+</div>
+}
+
+@if (isTaskModelOpen()) {
+<app-task-details
+  [(isTaskModelOpen)]="isTaskModelOpen"
+  [task]="taskForModal()"
+  [composerAvatarLabel]="currentUser()?.name ?? ''"
+  (commentSubmit)="onCommentSubmitted($event)" />
 }
