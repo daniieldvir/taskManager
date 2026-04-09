@@ -5,9 +5,11 @@
       Comments
       <span class="comment-count">{{ comments().length }}</span>
     </h4>
-    <button class="add-button" (click)="handelAddNewComment()">
-      <svg [lucideIcon]="commentIcon()" [size]="18" />
-    </button>
+    <app-button
+      [variant]="'uniq-icon'"
+      [icon]="{ name: commentIcon(), size: '18' }"
+      (buttonClicked)="openAddNewCommentSection()"
+    />
   </div>
 
   <div
@@ -24,12 +26,19 @@
           placeholder="Add a comment..."
           (keydown.enter)="submitComment(); $event.preventDefault()"
         ></textarea>
-        <app-button
-          [label]="'Save'"
-          [variant]="'primary'"
-          [disabled]="!newComment().trim()"
-          (buttonClicked)="submitComment()"
-        />
+        <div class="actions">
+          <app-button
+            [label]="'Cancel'"
+            [variant]="'secondary'"
+            (buttonClicked)="openAddNewCommentSection()"
+          />
+          <app-button
+            [label]="'Save'"
+            [variant]="'primary'"
+            [disabled]="!newComment().trim()"
+            (buttonClicked)="submitComment()"
+          />
+        </div>
       </div>
     </div>
   </div>

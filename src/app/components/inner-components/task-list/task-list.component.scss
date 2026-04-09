@@ -104,6 +104,36 @@
             transform: scale(0.98);
           }
 
+          .edit-action-btn {
+            position: absolute;
+            top: 14px;
+            left: 14px;
+            width: 28px;
+            height: 28px;
+            border-radius: 8px;
+            border: 1px solid var(--task-card-border);
+            background-color: var(--task-card-bg);
+            color: var(--task-text-secondary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            z-index: 10;
+
+            &:hover {
+              background-color: var(--task-card-hover-bg);
+              color: var(--primary-color, #2563eb);
+              border-color: var(--primary-color, #2563eb);
+              transform: scale(1.05);
+            }
+          }
+
+          &:hover .edit-action-btn {
+            opacity: 1;
+          }
+
           app-priority-badge {
             display: flex;
             justify-content: flex-end;
@@ -128,6 +158,7 @@
               line-height: 1.5;
               display: -webkit-box;
               -webkit-line-clamp: 2;
+              line-clamp: 2;
               -webkit-box-orient: vertical;
               overflow: hidden;
             }
@@ -203,6 +234,7 @@
         line-height: 1.5;
         display: -webkit-box;
         -webkit-line-clamp: 2;
+        line-clamp: 2;
         -webkit-box-orient: vertical;
         overflow: hidden;
       }

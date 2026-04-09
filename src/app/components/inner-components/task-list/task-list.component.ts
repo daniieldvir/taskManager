@@ -8,10 +8,11 @@ import {
 } from '@angular/cdk/drag-drop';
 import { DatePipe, DecimalPipe, NgClass } from '@angular/common';
 import { Component, effect, input, output } from '@angular/core';
+import { LucideDynamicIcon } from '@lucide/angular';
+import { TaskListColumn } from '../../../constants/task-list-colums.const';
 import { Task } from '../../../models/task.model';
 import { Status, StatusEnum } from '../../../types/status.type';
 import { AvatarComponent } from '../../UI/avatar/avatar.component';
-import { LucideDynamicIcon } from '@lucide/angular';
 import { PriorityBadgeComponent } from '../../UI/priority-badge/priority-badge.component';
 
 export interface BoardColumn {
@@ -40,23 +41,16 @@ export interface BoardColumn {
 export class TaskListComponent {
   public tasks = input<Task[] | undefined>(undefined);
   public taskClicked = output<Task>();
+  public taskEditClicked = output<Task>();
   public taskStatusChanged = output<{ taskId: number; newStatus: Status }>();
 
-  public columns: BoardColumn[] = [
-    { id: StatusEnum.ToDo, title: 'Open', tasks: [] },
-    { id: StatusEnum.InProgress, title: 'In Progress', tasks: [] },
-    { id: StatusEnum.Done, title: 'Closed', tasks: [] },
-  ];
+  public columns: BoardColumn[] = TaskListColumn;
 
   constructor() {
     effect(() => {
       const allTasks = this.tasks();
       if (allTasks) {
-        const newCols: BoardColumn[] = [
-          { id: StatusEnum.ToDo, title: 'Open', tasks: [] },
-          { id: StatusEnum.InProgress, title: 'In Progress', tasks: [] },
-          { id: StatusEnum.Done, title: 'Closed', tasks: [] },
-        ];
+        const newCols: BoardColumn[] = TaskListColumn;
         allTasks.forEach((task) => {
           const status = task.status ?? StatusEnum.ToDo;
           let targetCol = newCols.find((c) => c.id === status);
@@ -86,5 +80,9 @@ export class TaskListComponent {
 
   onTaskClick(task: Task) {
     this.taskClicked.emit(task);
+  }
+
+  onEdit(task: Task) {
+    this.taskEditClicked.emit(task);
   }
 }

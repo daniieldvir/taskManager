@@ -3,30 +3,40 @@ import { Task } from '../../../models/task.model';
 import { AuthService } from '../../../services/auth.service';
 import { TaskService } from '../../../services/task.service';
 import { Status } from '../../../types/status.type';
+import { TaskDetailsComponent } from '../../inner-components/task-details/task-details';
 import { TaskListComponent } from '../../inner-components/task-list/task-list.component';
 import { SidebarComponent } from '../../layout/sidebar/sidebar.component';
 import { FilterComponent } from '../../UI/filter/filter.component';
 import { LoginPageComponent } from '../login-page/login-page.component';
-import { TaskDetailsComponent } from "../../inner-components/task-details/task-details";
 
 @Component({
   selector: 'app-home-page',
-  imports: [LoginPageComponent, TaskListComponent, FilterComponent, SidebarComponent, TaskDetailsComponent],
+  imports: [
+    LoginPageComponent,
+    TaskListComponent,
+    FilterComponent,
+    SidebarComponent,
+    TaskDetailsComponent,
+  ],
   templateUrl: './home-page.component.html',
   styleUrl: './home-page.component.scss',
 })
 export class HomePageComponent {
   private readonly authService = inject(AuthService);
   private readonly tasksService = inject(TaskService);
-  private readonly assigneeFilter = signal<string>('ALL');
 
+  private readonly assigneeFilter = signal<string>('ALL');
+  private readonly selectedTaskId = signal<number | null>(null);
+
+  public isTaskModelOpen = model<boolean>(false);
+  public isEditingTask = signal(false);
   public currentUser = computed(() => this.authService.currentUser());
   public tasks = computed(() => this.tasksService.tasks());
   public readonly assigneesForAdd = this.tasksService.pureAssigneeOptions;
 
   public readonly assigneesForFilter = computed(() => [
     { label: 'All', value: 'ALL' },
-    ...this.tasksService.pureAssigneeOptions()
+    ...this.tasksService.pureAssigneeOptions(),
   ]);
 
   public filteredTasks = computed(() => {
@@ -38,9 +48,6 @@ export class HomePageComponent {
     return all.filter((task) => task.assignee === filter);
   });
 
-  public isTaskModelOpen = model<boolean>(false);
-  private readonly selectedTaskId = signal<number | null>(null);
-
   public taskForModal = computed(() => {
     const id = this.selectedTaskId();
     const list = this.tasks();
@@ -50,7 +57,7 @@ export class HomePageComponent {
     return list.find((t) => t.id === id) ?? null;
   });
 
-  ngOnInit() {
+  public ngOnInit() {
     if (this.currentUser() !== null) {
       this.tasksService.loadForCurrentUser();
     }
@@ -64,20 +71,32 @@ export class HomePageComponent {
     this.authService.currentUser.set(null);
   }
 
-  handelTaskStatusChanged(payload: { taskId: number; newStatus: Status }): void {
+  public handelTaskStatusChanged(payload: { taskId: number; newStatus: Status }): void {
     this.tasksService.updateTaskStatus(payload.taskId, payload.newStatus);
   }
 
-  handelTaskClicked(task: Task) {
+  public handelTaskClicked(task: Task) {
     this.selectedTaskId.set(task.id);
+    this.isEditingTask.set(false);
     this.isTaskModelOpen.set(true);
   }
 
-  onCommentSubmitted(message: string) {
+  public handelTaskEditClicked(task: Task) {
+    this.selectedTaskId.set(task.id);
+    this.isEditingTask.set(true);
+    this.isTaskModelOpen.set(true);
+  }
+
+  public onCommentSubmitted(message: string) {
     const task = this.taskForModal();
     const user = this.currentUser();
     if (task && user) {
       this.tasksService.addComment(task.id, user.name, user.userId, message);
     }
+  }
+
+  public onTaskSubmitted(newTask: Task) {
+    this.tasksService.updateTask(newTask);
+    this.isTaskModelOpen.set(false);
   }
 }

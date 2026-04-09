@@ -31,7 +31,7 @@ export class CommendBoxComponent {
   });
   protected newComment = signal<string>('');
 
-  public handelAddNewComment() {
+  public openAddNewCommentSection() {
     this.addNewComment.update((val) => !val);
   }
 

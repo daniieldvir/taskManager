@@ -17,6 +17,7 @@ import {
   LucideUserStar,
   LucideUsers,
   LucideX,
+  LucidePencil,
   provideLucideIcons,
 } from '@lucide/angular';
 
@@ -39,4 +40,5 @@ export const lucideAppIconsProvider = provideLucideIcons(
   LucideX,
   LucideMessageSquarePlus,
   LucideMessageSquareX,
+  LucidePencil,
 );

@@ -17,8 +17,15 @@
       </div>
       <span class="task-id">#{{ task()?.id }}</span>
     </div>
-    
+
     <div class="right">
+      @if (!isFormMode()) {
+        <app-button
+          [variant]="'secondary'"
+          [icon]="{ name: 'pencil', size: '15' }"
+          (click)="startEditing()"
+        />
+      }
       @if (isFormMode()) {
         <app-select
           [value]="activeDraft().priority ?? ''"
@@ -29,9 +36,7 @@
       } @else {
         <app-priority-badge [priority]="task()?.priority ?? ''" />
       }
-      <button class="close-btn" (click)="close()" title="Close">
-        <svg lucideIcon="x" [size]="18"></svg>
-      </button>
+      <app-button [variant]="'uniq-icon'" [icon]="{ name: 'x', size: '18' }" (click)="close()" />
     </div>
   </div>
 
@@ -41,6 +46,7 @@
         <app-input
           [label]="'Title'"
           [value]="activeDraft().title ?? ''"
+          [maxLength]="'100'"
           (valueChange)="updateField('title', $event)"
           placeholder="Task title"
         />
@@ -67,7 +73,7 @@
           (reporterChange)="updateField('reporter', $event)"
           (projectChange)="updateField('project', $event)"
           (teamChange)="updateField('team', $event)"
-          (statusChange)="updateField('status', $event)"
+          (statusChange)="updateStatus($event)"
           (dueDateChange)="updateField('dueDate', $event)"
           (tagsChange)="updateDraftTags($event)"
         />

@@ -3,6 +3,7 @@ import { Component, computed, input, model, output, signal } from '@angular/core
 import { LucideDynamicIcon } from '@lucide/angular';
 import { issueTypeOptions, priorityOptions } from '../../../constants/add-task.const';
 import { Task } from '../../../models/task.model';
+import { Status, StatusEnum } from '../../../types/status.type';
 import { ButtonComponent } from '../../UI/button/button.component';
 import { CommendBoxComponent } from '../../UI/commend-box/commend-box.component';
 import { InputComponent } from '../../UI/input/input.component';
@@ -29,18 +30,22 @@ import { IssueDetailsComponent } from '../issue-details/issue-details.component'
   styleUrl: './task-details.scss',
 })
 export class TaskDetailsComponent {
+  private readonly validStatuses: ReadonlySet<Status> = new Set(
+    Object.values(StatusEnum) as Status[],
+  );
+
   public isTaskModelOpen = model<boolean>(false);
-  public mode = input<'view' | 'create'>('create');
+  public mode = input<'view' | 'create'>('view');
   public task = input<Task | null>(null);
   public initialTask = input<Partial<Task> | null>(null);
   public assigneeOptions = input<SelectOption[]>([]);
   public composerAvatarLabel = input<string>('');
   public commentSubmit = output<string>();
-  public saveTask = output<Partial<Task>>();
+  public saveTask = output<Task>();
 
   public issueTypeOptions = signal<SelectOption[]>(issueTypeOptions);
   public priorityOptions = signal<SelectOption[]>(priorityOptions);
-  protected isEditing = signal(false);
+  public isEditing = model(false);
   protected isFormMode = computed(() => this.mode() === 'create' || this.isEditing());
 
   protected draft = computed(() => {
@@ -59,10 +64,10 @@ export class TaskDetailsComponent {
       createdAt: '',
       tags: [],
       ...base,
-    } as Partial<Task>;
+    } as Task;
   });
 
-  protected draftOverride = signal<Partial<Task> | null>(null);
+  protected draftOverride = signal<Task | null>(null);
 
   protected activeDraft = computed(() => this.draftOverride() ?? this.draft());
   protected draftTagsText = computed(() => (this.activeDraft().tags ?? []).join(', '));
@@ -77,11 +82,20 @@ export class TaskDetailsComponent {
     this.isEditing.set(true);
   }
 
-  updateField<K extends keyof Task>(field: K, value: any) {
+  updateField<K extends keyof Task>(field: K, value: Task[K]) {
     if (!this.draftOverride()) {
       this.draftOverride.set({ ...this.draft() });
     }
-    this.draftOverride.update((current) => ({ ...current, [field]: value }));
+    this.draftOverride.update((current) => ({
+      ...(current ?? this.draft()),
+      [field]: value,
+    }));
+  }
+
+  updateStatus(value: string) {
+    if (this.validStatuses.has(value as Status)) {
+      this.updateField('status', value as Status);
+    }
   }
 
   updateDraftTags(value: string) {

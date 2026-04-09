@@ -30,11 +30,8 @@
       }
     }
 
-    .add-button {
-      background: transparent;
-      border: none;
-      cursor: pointer;
-      color: var(--task-prio-open-fg);
+    app-button {
+      --button-uniq-icon-color: var(--task-prio-open-fg);
     }
   }
 
@@ -97,10 +94,13 @@
         }
       }
 
-      app-button {
+      .actions {
         display: flex;
         justify-content: flex-end;
+        gap: 10px;
       }
+
+     
     }
   }
 

@@ -1,8 +1,10 @@
 @use '../../../../styles/functions' as *;
 
 .button {
+  display: flex;
+  align-items: center;
+  gap: 5px;
   padding: 8px 20px;
-
   border: none;
   border-radius: 6px;
   font-weight: 600;
@@ -45,6 +47,22 @@
     &:disabled {
       opacity: 0.5;
       cursor: not-allowed;
+    }
+  }
+
+  &.uniq-icon {
+    background: transparent;
+    border: none;
+    color: var(--button-uniq-icon-color, var(--text-muted));
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &:hover {
+      color: var(--text-primary);
     }
   }
 }

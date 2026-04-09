@@ -17,6 +17,7 @@
       <app-task-list
         [tasks]="filteredTasks()"
         (taskClicked)="handelTaskClicked($event)"
+        (taskEditClicked)="handelTaskEditClicked($event)"
         (taskStatusChanged)="handelTaskStatusChanged($event)"
       />
     </div>
@@ -26,9 +27,11 @@
 @if (isTaskModelOpen()) {
   <app-task-details
     [(isTaskModelOpen)]="isTaskModelOpen"
+    [(isEditing)]="isEditingTask"
     [task]="taskForModal()"
     [assigneeOptions]="assigneesForAdd()"
-    [composerAvatarLabel]="currentUser()?.name ?? ''"
+    [composerAvatarLabel]="$any(currentUser())?.name ?? ''"
     (commentSubmit)="onCommentSubmitted($event)"
+    (saveTask)="onTaskSubmitted($event)"
   />
 }

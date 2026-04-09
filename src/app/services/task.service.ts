@@ -45,6 +45,14 @@ export class TaskService {
     });
   }
 
+  updateTask(newTask: Task): void {
+    this.tasks.update((currentTasks) => {
+      if (!currentTasks) return undefined;
+
+      return currentTasks.map((task) => (task.id === newTask.id ? { ...task, ...newTask } : task));
+    });
+  }
+
   addComment(taskId: number, author: string, userId: string, comment: string): void {
     this.tasks.update((currentTasks) => {
       if (!currentTasks) return undefined;

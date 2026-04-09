@@ -12,6 +12,7 @@ export class InputComponent {
   public label = input<string>('');
   public placeholder = input<string>('');
   public type = input<'text' | 'date'>('text');
+  public maxLength =input<string>('');
 
   public valueChange = output<string>();
 }

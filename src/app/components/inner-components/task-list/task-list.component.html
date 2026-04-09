@@ -11,6 +11,9 @@
         (cdkDropListDropped)="drop($event)">
         @for (task of column.tasks; track task.id) {
         <div class="task-card" cdkDrag (click)="onTaskClick(task)">
+          <button class="edit-action-btn" (click)="$event.stopPropagation(); onEdit(task)" title="Edit Task">
+            <svg lucideIcon="pencil" [size]="14"></svg>
+          </button>
           <app-priority-badge [priority]="task.priority" />
 
           <div class="content">
