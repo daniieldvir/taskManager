@@ -13,6 +13,15 @@
       [options]="assigneeOptions()"
       placeholder="Assignee"
     />
+
+    @if (!taskAssignedToMe()) {
+      <app-button
+        sideControl
+        [variant]="'uniq-icon'"
+        [icon]="{ name: 'user-round-plus', size: '15' }"
+        (buttonClicked)="assignToMe()"
+      />
+    }
   </app-detail-row>
 
   <app-detail-row
@@ -21,11 +30,12 @@
     [value]="task()?.reporter"
     [isEditing]="isFormMode()"
   >
-    <app-input
+    <app-select
       editControl
       [value]="draft().reporter ?? ''"
       (valueChange)="reporterChange.emit($event)"
-      placeholder="Reporter"
+      [options]="assigneeOptions()"
+      placeholder="Assignee"
     />
   </app-detail-row>
 
@@ -61,7 +71,11 @@
   <app-detail-row
     [svgIcon]="{ name: 'activity', size: '14' }"
     [label]="'Status'"
-    [tagChip]="{ data: task()?.status ?? '', variant: 'status-chip' }"
+    [tagChip]="{
+      data: task()?.status ?? '',
+      variant: 'status-chip',
+      displayStatus: task()?.status,
+    }"
     [isEditing]="isFormMode()"
   >
     <app-select

@@ -42,6 +42,7 @@ export class TaskDetailsComponent {
   public composerAvatarLabel = input<string>('');
   public commentSubmit = output<string>();
   public saveTask = output<Task>();
+  public quickAssignToMe = output<{ taskId: number; assignee: string }>();
 
   public issueTypeOptions = signal<SelectOption[]>(issueTypeOptions);
   public priorityOptions = signal<SelectOption[]>(priorityOptions);
@@ -104,6 +105,20 @@ export class TaskDetailsComponent {
       .map((tag) => tag.trim())
       .filter((tag) => tag.length > 0);
     this.updateField('tags', tags);
+  }
+
+  assignTaskToCurrentUser() {
+    const currentUserName = this.composerAvatarLabel().trim();
+    if (!currentUserName) return;
+
+    if (this.isFormMode()) {
+      this.updateField('assignee', currentUserName);
+      return;
+    }
+
+    const currentTask = this.task();
+    if (!currentTask) return;
+    this.quickAssignToMe.emit({ taskId: currentTask.id, assignee: currentUserName });
   }
 
   save() {

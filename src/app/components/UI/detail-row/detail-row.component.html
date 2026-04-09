@@ -10,15 +10,18 @@
     } @else {
       @if (avatar()) {
         <app-avatar [data]="avatar()!" />
-      }
-
-      @if (tags().length > 0) {
+      } @else if (tags().length > 0) {
         @for (chip of tags(); track $index) {
-          <app-tag-chip [data]="chip.data" [variant]="chip.variant" />
+          <app-tag-chip
+            [data]="chip.data"
+            [variant]="chip.variant"
+            [displayStatus]="chip.displayStatus"
+          />
         }
+      } @else {
+        <span>{{ value() }}</span>
       }
-
-      <span>{{ value() }}</span>
     }
+    <ng-content select="[sideControl]" />
   </div>
 </div>

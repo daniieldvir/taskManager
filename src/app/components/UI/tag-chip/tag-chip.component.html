@@ -1,7 +1,7 @@
-<span   [ngClass]="variant()">
-  @if (displayStatus()) {
-    <app-stats-card [label]="displayStatus()" />
-  }
-
-  {{ data() }}</span
->
+@if (displayStatus()) {
+  <app-stats-card [label]="displayStatus()" />
+} @else {
+  <span [ngClass]="variant()">
+    {{ data() }}
+  </span>
+}

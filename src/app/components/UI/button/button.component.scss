@@ -6,13 +6,9 @@
   gap: 5px;
   padding: 8px 20px;
   border: none;
-  border-radius: 6px;
-  font-weight: 600;
+  border-radius: var(--button-border-radius, 6px);
   font-size: rem(14px);
   cursor: pointer;
-  transition:
-    filter 0.2s ease,
-    opacity 0.2s ease;
 
   &.primary {
     background: var(--primary-color);

@@ -8,7 +8,7 @@ import { User } from '../models/user.model';
 export class AuthService {
   private readonly http = inject(HttpClient);
   public allUsers = signal<User[] | null>(null);
-  public currentUser = signal<User | null>(null);
+  public loggedUser = signal<User | null>(null);
 
   getAllUsers() {
     this.http.get<User[]>('assets/data/users.json').subscribe((users) => {
@@ -17,7 +17,7 @@ export class AuthService {
   }
 
   setLoginUser(user: User) {
-    this.currentUser.set(user);
-    console.log(this.currentUser())
+    this.loggedUser.set(user);
+    console.log(this.loggedUser())
   }
 }

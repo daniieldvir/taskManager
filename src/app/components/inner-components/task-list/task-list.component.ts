@@ -44,13 +44,21 @@ export class TaskListComponent {
   public taskEditClicked = output<Task>();
   public taskStatusChanged = output<{ taskId: number; newStatus: Status }>();
 
-  public columns: BoardColumn[] = TaskListColumn;
+  public columns: BoardColumn[] = this.createEmptyColumns();
+
+  private createEmptyColumns(): BoardColumn[] {
+    return TaskListColumn.map((column) => ({
+      id: column.id,
+      title: column.title,
+      tasks: [],
+    }));
+  }
 
   constructor() {
     effect(() => {
       const allTasks = this.tasks();
       if (allTasks) {
-        const newCols: BoardColumn[] = TaskListColumn;
+        const newCols: BoardColumn[] = this.createEmptyColumns();
         allTasks.forEach((task) => {
           const status = task.status ?? StatusEnum.ToDo;
           let targetCol = newCols.find((c) => c.id === status);
@@ -58,6 +66,8 @@ export class TaskListComponent {
           targetCol.tasks.push(task);
         });
         this.columns = newCols;
+      } else {
+        this.columns = this.createEmptyColumns();
       }
     });
   }

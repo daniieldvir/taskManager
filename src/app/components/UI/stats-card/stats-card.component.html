@@ -1,5 +1,8 @@
-<div class="stat-card" [ngClass]="className()">
-  @if (data()) {
+<div
+  class="stat-card"
+  [ngClass]="[className(), data() !== undefined ? 'with-count' : 'without-count']"
+>
+  @if (data() !== undefined) {
     <span class="stat-count">{{ data() }}</span>
   }
   <span class="stat-label">{{ label() }}</span>

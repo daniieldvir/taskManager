@@ -4,6 +4,8 @@
   justify-content: space-between;
   padding: 0.6rem 0.85rem;
   border-radius: 8px;
+  width: var(--status-card-width);
+  height: var(--status-card-height);
 
   .stat-count {
     font-size: 1.2rem;
@@ -17,11 +19,11 @@
 
   &.to-do {
     background: var(--task-prio-open-bg);
-  
+
     .stat-count {
       color: var(--task-prio-open-fg);
     }
-  
+
     .stat-label {
       color: var(--task-prio-open-fg);
       opacity: 0.8;

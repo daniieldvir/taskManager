@@ -30,7 +30,7 @@ export class HomePageComponent {
 
   public isTaskModelOpen = model<boolean>(false);
   public isEditingTask = signal(false);
-  public currentUser = computed(() => this.authService.currentUser());
+  public loggedUser = computed(() => this.authService.loggedUser());
   public tasks = computed(() => this.tasksService.tasks());
   public readonly assigneesForAdd = this.tasksService.pureAssigneeOptions;
 
@@ -58,7 +58,7 @@ export class HomePageComponent {
   });
 
   public ngOnInit() {
-    if (this.currentUser() !== null) {
+    if (this.loggedUser() !== null) {
       this.tasksService.loadForCurrentUser();
     }
   }
@@ -68,7 +68,7 @@ export class HomePageComponent {
   }
 
   public handleLogout() {
-    this.authService.currentUser.set(null);
+    this.authService.loggedUser.set(null);
   }
 
   public handelTaskStatusChanged(payload: { taskId: number; newStatus: Status }): void {
@@ -89,14 +89,20 @@ export class HomePageComponent {
 
   public onCommentSubmitted(message: string) {
     const task = this.taskForModal();
-    const user = this.currentUser();
-    if (task && user) {
-      this.tasksService.addComment(task.id, user.name, user.userId, message);
+    const loggedUser = this.loggedUser();
+    if (task && loggedUser) {
+      this.tasksService.addComment(task.id, loggedUser.name, loggedUser.userId, message);
     }
   }
 
   public onTaskSubmitted(newTask: Task) {
     this.tasksService.updateTask(newTask);
     this.isTaskModelOpen.set(false);
+  }
+
+  public onQuickAssignToMe(payload: { taskId: number; assignee: string }) {
+    const task = this.taskForModal();
+    if (!task || task.id !== payload.taskId) return;
+    this.tasksService.updateTask({ ...task, assignee: payload.assignee });
   }
 }

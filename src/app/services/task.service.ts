@@ -25,7 +25,7 @@ export class TaskService {
   });
 
   loadForCurrentUser(): void {
-    const user = this.authService.currentUser();
+    const user = this.authService.loggedUser();
     if (user === null) {
       return;
     }

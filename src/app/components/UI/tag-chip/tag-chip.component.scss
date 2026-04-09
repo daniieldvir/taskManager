@@ -17,5 +17,8 @@
   background: var(--task-prio-open-bg);
   color: var(--task-prio-open-fg);
   text-transform: capitalize;
+}
 
+app-stats-card {
+  --status-card-height: 10px;
 }

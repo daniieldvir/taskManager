@@ -1,16 +1,16 @@
-@if (!currentUser()) {
+@if (!loggedUser()) {
   <app-login-page />
 }
-@if (currentUser()) {
+@if (loggedUser()) {
   <div class="home-page-content">
     <app-sidebar
-      [currentUser]="$any(currentUser())"
+      [currentUser]="$any(loggedUser())"
       [tasks]="tasks()"
       (logOutClicked)="handleLogout()"
     />
     <div class="main-content">
       <app-filter
-        [currentUser]="currentUser()"
+        [currentUser]="loggedUser()"
         [assigneeOptions]="assigneesForFilter()"
         (filterChanged)="handelFilterTasks($event)"
       />
@@ -30,8 +30,9 @@
     [(isEditing)]="isEditingTask"
     [task]="taskForModal()"
     [assigneeOptions]="assigneesForAdd()"
-    [composerAvatarLabel]="$any(currentUser())?.name ?? ''"
+    [composerAvatarLabel]="loggedUser()?.name ?? ''"
     (commentSubmit)="onCommentSubmitted($event)"
     (saveTask)="onTaskSubmitted($event)"
+    (quickAssignToMe)="onQuickAssignToMe($event)"
   />
 }

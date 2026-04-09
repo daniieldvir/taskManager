@@ -5,7 +5,7 @@ import { AvatarComponent } from '../avatar/avatar.component';
 import { TagChipComponent } from '../tag-chip/tag-chip.component';
 
 export type TagChipData = {
-  data: string;
+  data: string ;
   variant: 'status-chip' | 'tag-chip';
   displayStatus?: Status;
 };
